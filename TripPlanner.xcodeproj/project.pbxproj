@@ -6,6 +6,24 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		54D0F8012DF4DBDE006203EF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8002DF4DBDE006203EF /* ContentView.swift */; };
+		54D0F8342DF4DCF7006203EF /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8332DF4DCF7006203EF /* TripListView.swift */; };
+		54D0F8362DF4DCFF006203EF /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8352DF4DCFF006203EF /* TripDetailView.swift */; };
+		54D0F8382DF4DD0D006203EF /* TripRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8372DF4DD0D006203EF /* TripRowView.swift */; };
+		54D0F83A2DF4DD15006203EF /* NewTripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8392DF4DD15006203EF /* NewTripView.swift */; };
+		54D0F83C2DF4DD1D006203EF /* CitySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F83B2DF4DD1D006203EF /* CitySearchView.swift */; };
+		54D0F83F2DF4DD5C006203EF /* ItineraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F83E2DF4DD5C006203EF /* ItineraryView.swift */; };
+		54D0F8412DF4DD62006203EF /* ActivityRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8402DF4DD62006203EF /* ActivityRowView.swift */; };
+		54D0F8432DF4DD68006203EF /* NewActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8422DF4DD68006203EF /* NewActivityView.swift */; };
+		54D0F8452DF4DD6F006203EF /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8442DF4DD6F006203EF /* LocationSearchView.swift */; };
+		54D0F8472DF4DD76006203EF /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8462DF4DD76006203EF /* MapView.swift */; };
+		54D0F8492DF4DD7F006203EF /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8482DF4DD7F006203EF /* EmptyStateView.swift */; };
+		54D0F8532DF4E18D006203EF /* TripStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8522DF4E184006203EF /* TripStore.swift */; };
+		54D0F8542DF4E1C6006203EF /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8512DF4E17A006203EF /* Trip.swift */; };
+		54D0F8552DF4E1E2006203EF /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D0F8502DF4E171006203EF /* Activity.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		54D0F80B2DF4DBE0006203EF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -25,8 +43,23 @@
 
 /* Begin PBXFileReference section */
 		54D0F7FB2DF4DBDE006203EF /* TripPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		54D0F8002DF4DBDE006203EF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		54D0F80A2DF4DBE0006203EF /* TripPlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		54D0F8142DF4DBE0006203EF /* TripPlannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		54D0F8332DF4DCF7006203EF /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
+		54D0F8352DF4DCFF006203EF /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
+		54D0F8372DF4DD0D006203EF /* TripRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripRowView.swift; sourceTree = "<group>"; };
+		54D0F8392DF4DD15006203EF /* NewTripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripView.swift; sourceTree = "<group>"; };
+		54D0F83B2DF4DD1D006203EF /* CitySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySearchView.swift; sourceTree = "<group>"; };
+		54D0F83E2DF4DD5C006203EF /* ItineraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItineraryView.swift; sourceTree = "<group>"; };
+		54D0F8402DF4DD62006203EF /* ActivityRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRowView.swift; sourceTree = "<group>"; };
+		54D0F8422DF4DD68006203EF /* NewActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewActivityView.swift; sourceTree = "<group>"; };
+		54D0F8442DF4DD6F006203EF /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
+		54D0F8462DF4DD76006203EF /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		54D0F8482DF4DD7F006203EF /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		54D0F8502DF4E171006203EF /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
+		54D0F8512DF4E17A006203EF /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		54D0F8522DF4E184006203EF /* TripStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -76,6 +109,8 @@
 			isa = PBXGroup;
 			children = (
 				54D0F7FD2DF4DBDE006203EF /* TripPlanner */,
+				54D0F8282DF4DC1E006203EF /* Views */,
+				54D0F8272DF4DC08006203EF /* Models */,
 				54D0F80D2DF4DBE0006203EF /* TripPlannerTests */,
 				54D0F8172DF4DBE0006203EF /* TripPlannerUITests */,
 				54D0F7FC2DF4DBDE006203EF /* Products */,
@@ -90,6 +125,67 @@
 				54D0F8142DF4DBE0006203EF /* TripPlannerUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		54D0F8272DF4DC08006203EF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				54D0F8522DF4E184006203EF /* TripStore.swift */,
+				54D0F8512DF4E17A006203EF /* Trip.swift */,
+				54D0F8502DF4E171006203EF /* Activity.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		54D0F8282DF4DC1E006203EF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				54D0F8482DF4DD7F006203EF /* EmptyStateView.swift */,
+				54D0F83D2DF4DD51006203EF /* ActivityViews */,
+				54D0F8322DF4DCCE006203EF /* MapViews */,
+				54D0F8302DF4DCBC006203EF /* TripViews */,
+				54D0F82F2DF4DCB5006203EF /* MainViews */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		54D0F82F2DF4DCB5006203EF /* MainViews */ = {
+			isa = PBXGroup;
+			children = (
+				54D0F8002DF4DBDE006203EF /* ContentView.swift */,
+				54D0F8352DF4DCFF006203EF /* TripDetailView.swift */,
+				54D0F8332DF4DCF7006203EF /* TripListView.swift */,
+			);
+			path = MainViews;
+			sourceTree = "<group>";
+		};
+		54D0F8302DF4DCBC006203EF /* TripViews */ = {
+			isa = PBXGroup;
+			children = (
+				54D0F8372DF4DD0D006203EF /* TripRowView.swift */,
+				54D0F8392DF4DD15006203EF /* NewTripView.swift */,
+				54D0F83B2DF4DD1D006203EF /* CitySearchView.swift */,
+			);
+			path = TripViews;
+			sourceTree = "<group>";
+		};
+		54D0F8322DF4DCCE006203EF /* MapViews */ = {
+			isa = PBXGroup;
+			children = (
+				54D0F8462DF4DD76006203EF /* MapView.swift */,
+			);
+			path = MapViews;
+			sourceTree = "<group>";
+		};
+		54D0F83D2DF4DD51006203EF /* ActivityViews */ = {
+			isa = PBXGroup;
+			children = (
+				54D0F8442DF4DD6F006203EF /* LocationSearchView.swift */,
+				54D0F8422DF4DD68006203EF /* NewActivityView.swift */,
+				54D0F8402DF4DD62006203EF /* ActivityRowView.swift */,
+				54D0F83E2DF4DD5C006203EF /* ItineraryView.swift */,
+			);
+			path = ActivityViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +332,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54D0F8552DF4E1E2006203EF /* Activity.swift in Sources */,
+				54D0F8382DF4DD0D006203EF /* TripRowView.swift in Sources */,
+				54D0F8532DF4E18D006203EF /* TripStore.swift in Sources */,
+				54D0F8452DF4DD6F006203EF /* LocationSearchView.swift in Sources */,
+				54D0F83C2DF4DD1D006203EF /* CitySearchView.swift in Sources */,
+				54D0F8542DF4E1C6006203EF /* Trip.swift in Sources */,
+				54D0F8412DF4DD62006203EF /* ActivityRowView.swift in Sources */,
+				54D0F8472DF4DD76006203EF /* MapView.swift in Sources */,
+				54D0F83A2DF4DD15006203EF /* NewTripView.swift in Sources */,
+				54D0F8492DF4DD7F006203EF /* EmptyStateView.swift in Sources */,
+				54D0F8362DF4DCFF006203EF /* TripDetailView.swift in Sources */,
+				54D0F8432DF4DD68006203EF /* NewActivityView.swift in Sources */,
+				54D0F8012DF4DBDE006203EF /* ContentView.swift in Sources */,
+				54D0F83F2DF4DD5C006203EF /* ItineraryView.swift in Sources */,
+				54D0F8342DF4DCF7006203EF /* TripListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

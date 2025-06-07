@@ -5,28 +5,17 @@
 //  Created by Matt Berman on 6/7/25.
 //
 
+
 import SwiftUI
-import SwiftData
 
 @main
 struct TripPlannerApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
+    @StateObject private var tripStore = TripStore()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(tripStore)
         }
-        .modelContainer(sharedModelContainer)
     }
 }
