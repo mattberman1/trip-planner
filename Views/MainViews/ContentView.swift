@@ -10,27 +10,28 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var tripStore: TripStore
     @State private var showingNewTrip = false
-    @State private var selectedTrip: Trip?
+    @State private var path = NavigationPath()
     
     var body: some View {
-        NavigationSplitView {
-            TripListView(showingNewTrip: $showingNewTrip, selectedTrip: $selectedTrip)
-        } detail: {
-            if let trip = selectedTrip {
-                TripDetailView(trip: binding(for: trip))
-            } else {
-                EmptyStateView()
-            }
+        NavigationStack(path: $path) {
+            TripListView(showingNewTrip: $showingNewTrip)
+                .navigationDestination(for: Trip.self) { trip in
+                    TripDetailView(trip: binding(for: trip))
+                }
         }
         .sheet(isPresented: $showingNewTrip) {
-            NewTripView(selectedTrip: $selectedTrip)
+            NewTripView { newTrip in
+                if let newTrip = newTrip {
+                    path.append(newTrip)
+                }
+            }
         }
     }
     
-    private func binding(for trip: Trip) -> Binding<Trip> {
-        Binding(
-            get: { trip },
-            set: { tripStore.updateTrip($0) }
-        )
+        private func binding(for trip: Trip) -> Binding<Trip> {
+        guard let index = tripStore.trips.firstIndex(where: { $0.id == trip.id }) else {
+            return .constant(trip)
+        }
+        return $tripStore.trips[index]
     }
 }

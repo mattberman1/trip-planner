@@ -12,6 +12,7 @@ import EventKit
 
 struct NewActivityView: View {
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var tripStore: TripStore
     @Binding var trip: Trip
     
     @State private var title = ""
@@ -98,7 +99,9 @@ struct NewActivityView: View {
             notes: notes
         )
         
-        trip.activities.append(activity)
+        var updatedTrip = trip
+        updatedTrip.activities.append(activity)
+        tripStore.updateTrip(updatedTrip)
         
         // Request calendar access for future integration
         eventStore.requestAccess(to: .event) { granted, error in

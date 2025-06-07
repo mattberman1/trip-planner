@@ -11,7 +11,7 @@ import SwiftUI
 struct NewTripView: View {
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var tripStore: TripStore
-    @Binding var selectedTrip: Trip?
+    var onDismiss: ((Trip?) -> Void)?
     
     @State private var tripName = ""
     @State private var startDate = Date()
@@ -19,6 +19,10 @@ struct NewTripView: View {
     @State private var cities: [String] = []
     @State private var newCity = ""
     @State private var showingCityPicker = false
+    
+    init(onDismiss: ((Trip?) -> Void)? = nil) {
+        self.onDismiss = onDismiss
+    }
     
     var body: some View {
         NavigationView {
@@ -58,7 +62,7 @@ struct NewTripView: View {
                             cities: cities
                         )
                         tripStore.addTrip(newTrip)
-                        selectedTrip = newTrip
+                        onDismiss?(newTrip)
                         dismiss()
                     }
                     .disabled(tripName.isEmpty || cities.isEmpty)

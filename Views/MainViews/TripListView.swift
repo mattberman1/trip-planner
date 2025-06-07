@@ -11,15 +11,13 @@ import SwiftUI
 struct TripListView: View {
     @EnvironmentObject var tripStore: TripStore
     @Binding var showingNewTrip: Bool
-    @Binding var selectedTrip: Trip?
     
     var body: some View {
         List {
-            ForEach(tripStore.trips) { trip in
-                TripRowView(trip: trip)
-                    .onTapGesture {
-                        selectedTrip = trip
-                    }
+            ForEach($tripStore.trips) { $trip in
+                NavigationLink(value: trip) {
+                    TripRowView(trip: trip)
+                }
             }
             .onDelete { indexSet in
                 for index in indexSet {
@@ -28,6 +26,7 @@ struct TripListView: View {
             }
         }
         .navigationTitle("My Trips")
+        .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button(action: { showingNewTrip = true }) {

@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 import SwiftUI
 
-struct Activity: Identifiable, Codable {
+struct Activity: Identifiable, Codable, Hashable {
     let id = UUID()
     var title: String
     var startTime: Date
@@ -20,7 +20,7 @@ struct Activity: Identifiable, Codable {
     var notes: String = ""
 }
 
-struct Location: Codable {
+struct Location: Codable, Hashable {
     var name: String
     var latitude: Double
     var longitude: Double

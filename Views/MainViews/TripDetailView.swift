@@ -12,22 +12,40 @@ import MapKit
 struct TripDetailView: View {
     @Binding var trip: Trip
     @State private var showingNewActivity = false
-    @State private var mapRegion = MKCoordinateRegion()
+    @State private var selectedActivity: Activity?
     @State private var annotations: [ActivityAnnotation] = []
-    @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        NavigationSplitView(columnVisibility: $columnVisibility) {
-            // Sidebar: Itinerary
-            ItineraryView(trip: $trip, showingNewActivity: $showingNewActivity)
-                .navigationSplitViewColumnWidth(min: 300, ideal: 400)
-        } detail: {
-            // Detail: Map
-            MapView(trip: trip, annotations: annotations)
-                .navigationTitle("Map")
-                .navigationBarTitleDisplayMode(.inline)
+        ScrollView {
+            VStack(spacing: 0) {
+                // Map Section
+                MapView(trip: trip, annotations: annotations, selectedActivity: $selectedActivity)
+                    .frame(height: 250)
+                
+                // Itinerary Section
+                ItineraryView(trip: $trip, showingNewActivity: $showingNewActivity, selectedActivity: $selectedActivity)
+                    .padding()
+            }
         }
         .navigationTitle(trip.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("Trips")
+                    }
+                }
+            }
+        }
+        .onAppear {
+            updateAnnotations()
+        }
+        .onChange(of: trip.activities) { _ in
+            updateAnnotations()
+        }
         .sheet(isPresented: $showingNewActivity) {
             NewActivityView(trip: $trip)
         }
