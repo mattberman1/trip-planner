@@ -16,7 +16,7 @@ struct CitySearchView: View {
     @State private var searchResults: [MKMapItem] = []
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(searchResults, id: \.self) { item in
                 Button(action: {
                     if let city = item.placemark.locality {
@@ -34,7 +34,7 @@ struct CitySearchView: View {
                 }
             }
             .searchable(text: $searchText)
-            .onChange(of: searchText) { newValue in
+            .onChange(of: searchText) { _, newValue in
                 searchForCities(newValue)
             }
             .navigationTitle("Search Cities")

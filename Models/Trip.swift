@@ -9,7 +9,7 @@
 import Foundation
 
 struct Trip: Identifiable, Codable, Hashable {
-    let id = UUID()
+    var id = UUID()
     var name: String
     var startDate: Date
     var endDate: Date

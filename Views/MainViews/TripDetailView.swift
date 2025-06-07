@@ -14,6 +14,7 @@ struct TripDetailView: View {
     @State private var showingNewActivity = false
     @State private var selectedActivity: Activity?
     @State private var annotations: [ActivityAnnotation] = []
+    @State private var lastActivitiesCount = 0
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -42,23 +43,21 @@ struct TripDetailView: View {
         }
         .onAppear {
             updateAnnotations()
+            lastActivitiesCount = trip.activities.count
         }
         .onChange(of: trip.activities) { _ in
+            // Update annotations when activities change
             updateAnnotations()
+            lastActivitiesCount = trip.activities.count
         }
         .sheet(isPresented: $showingNewActivity) {
             NewActivityView(trip: $trip)
         }
-        .onChange(of: trip.activities.count) {
-            updateAnnotations()
-        }
-        .onAppear {
-            updateAnnotations()
-        }
     }
     
     private func updateAnnotations() {
-        annotations = trip.activities.map { activity in
+        // Only update if annotations are actually different
+        let newAnnotations = trip.activities.map { activity in
             ActivityAnnotation(
                 activity: activity,
                 coordinate: CLLocationCoordinate2D(
@@ -67,12 +66,23 @@ struct TripDetailView: View {
                 )
             )
         }
+        
+        if Set(newAnnotations.map(\.id)) != Set(annotations.map(\.id)) {
+            annotations = newAnnotations
+        }
     }
 }
 
-struct ActivityAnnotation: Identifiable {
+struct ActivityAnnotation: Identifiable, Equatable {
     let id = UUID()
     let activity: Activity
     let coordinate: CLLocationCoordinate2D
+    
+    static func == (lhs: ActivityAnnotation, rhs: ActivityAnnotation) -> Bool {
+        lhs.id == rhs.id && 
+        lhs.activity.id == rhs.activity.id &&
+        lhs.coordinate.latitude == rhs.coordinate.latitude &&
+        lhs.coordinate.longitude == rhs.coordinate.longitude
+    }
 }
 

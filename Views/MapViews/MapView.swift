@@ -68,10 +68,12 @@ struct MapView: View {
         .onAppear {
             updatePosition()
         }
-        .onChange(of: annotations.count) {
-            updatePosition()
+        .onChange(of: annotations.count) { oldCount, newCount in
+            if oldCount != newCount {
+                updatePosition()
+            }
         }
-        .onChange(of: selectedActivity) { newValue in
+        .onChange(of: selectedActivity) { oldValue, newValue in
             if let activity = newValue, 
                let annotation = annotations.first(where: { $0.activity.id == activity.id }),
                selectedAnnotation?.id != annotation.id {

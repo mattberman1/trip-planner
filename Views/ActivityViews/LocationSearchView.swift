@@ -16,7 +16,7 @@ struct LocationSearchView: View {
     @State private var searchResults: [MKMapItem] = []
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List(searchResults, id: \.self) { item in
                 Button(action: {
                     selectedLocation = item
@@ -32,7 +32,7 @@ struct LocationSearchView: View {
                 }
             }
             .searchable(text: $searchText)
-            .onChange(of: searchText) { newValue in
+            .onChange(of: searchText) { _, newValue in
                 searchForLocations(newValue)
             }
             .navigationTitle("Search Location")

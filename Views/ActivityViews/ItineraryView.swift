@@ -9,12 +9,24 @@
 import SwiftUI
 
 struct ItineraryView: View {
+    private enum Constants {
+        static let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .full
+            return formatter
+        }()
+    }
+    
     @Binding var trip: Trip
     @Binding var showingNewActivity: Bool
     @Binding var selectedActivity: Activity?
     
+    @State private var cachedGroupedActivities: [Date: [Activity]] = [:]
+    @State private var lastActivitiesCount = 0
+    
     var body: some View {
-        VStack(spacing: 0) {
+        let _ = updateCacheIfNeeded()
+        return VStack(spacing: 0) {
             // Trip Header
             VStack(alignment: .leading, spacing: 8) {
                 Text(trip.name)
@@ -48,9 +60,11 @@ struct ItineraryView: View {
             
             // Activities List
             List {
-                ForEach(groupedActivities.keys.sorted(), id: \.self) { date in
-                    Section(header: Text(dateFormatter.string(from: date))) {
-                        ForEach(groupedActivities[date] ?? []) { activity in
+                let activitiesByDate = groupedActivities
+                ForEach(activitiesByDate.keys.sorted(), id: \.self) { date in
+                    Section(header: Text(Constants.dateFormatter.string(from: date))) {
+                        let activities = activitiesByDate[date] ?? []
+                        ForEach(activities, id: \.id) { activity in
                             Button(action: {
                                 selectedActivity = activity
                             }) {
@@ -83,23 +97,37 @@ struct ItineraryView: View {
     }
     
     private var groupedActivities: [Date: [Activity]] {
-        Dictionary(grouping: trip.activities) { activity in
+        // Use cached version if available and counts match
+        if !cachedGroupedActivities.isEmpty && cachedGroupedActivities.count == trip.activities.count {
+            return cachedGroupedActivities
+        }
+        
+        // Fallback to direct grouping if cache is invalid
+        return Dictionary(grouping: trip.activities) { activity in
             Calendar.current.startOfDay(for: activity.startTime)
         }
     }
     
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        return formatter
+    // Update cache when activities change
+    private func updateCacheIfNeeded() {
+        guard lastActivitiesCount != trip.activities.count else { return }
+        
+        cachedGroupedActivities = Dictionary(grouping: trip.activities) { activity in
+            Calendar.current.startOfDay(for: activity.startTime)
+        }
+        lastActivitiesCount = trip.activities.count
     }
     
     private func deleteActivities(on date: Date, at offsets: IndexSet) {
         let activitiesOnDate = groupedActivities[date] ?? []
-        for index in offsets {
-            if let activityIndex = trip.activities.firstIndex(where: { $0.id == activitiesOnDate[index].id }) {
-                trip.activities.remove(at: activityIndex)
-            }
+        let idsToRemove = offsets.map { activitiesOnDate[$0].id }
+        
+        // Update the trip's activities by filtering out the removed ones
+        trip.activities.removeAll { activity in
+            idsToRemove.contains(activity.id)
         }
+        
+        // Invalidate cache
+        cachedGroupedActivities = [:]
     }
 }

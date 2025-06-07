@@ -25,13 +25,13 @@ struct NewTripView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section("Trip Details") {
                     TextField("Trip Name", text: $tripName)
                     
                     DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
-                    DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+                    DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)
                 }
                 
                 Section("Cities") {

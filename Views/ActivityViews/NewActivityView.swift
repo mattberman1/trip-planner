@@ -5,59 +5,76 @@
 //  Created by Matt Berman on 6/7/25.
 //
 
-
 import SwiftUI
 import MapKit
-import EventKit
 
+/// Sheet that lets a user create a new itinerary item and add it to a trip.
 struct NewActivityView: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var tripStore: TripStore
+    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var tripStore: TripStore
+
+    /// The trip we’re editing.
     @Binding var trip: Trip
-    
+
+    // MARK: - Local state
+
     @State private var title = ""
     @State private var startTime = Date()
-    @State private var endTime = Date().addingTimeInterval(3600)
+    @State private var endTime = Date().addingTimeInterval(60 * 60)
     @State private var category: ActivityCategory = .places
+    @State private var isAllDay = false
     @State private var notes = ""
     @State private var selectedLocation: MKMapItem?
     @State private var showingLocationSearch = false
-    
-    private let eventStore = EKEventStore()
-    
+
+    // MARK: - View
+
     var body: some View {
         NavigationView {
             Form {
+                // Activity basics
                 Section("Activity Details") {
                     TextField("Activity Name", text: $title)
-                    
+
                     Picker("Category", selection: $category) {
                         ForEach(ActivityCategory.allCases, id: \.self) { cat in
                             Label(cat.rawValue, systemImage: cat.icon)
                                 .tag(cat)
                         }
                     }
-                    
-                    DatePicker("Start Time", selection: $startTime)
-                    DatePicker("End Time", selection: $endTime)
-                    
+
+                    Toggle("All Day", isOn: $isAllDay)
+
+                    DatePicker("Start",
+                               selection: $startTime,
+                               displayedComponents: isAllDay ? .date : [.date, .hourAndMinute])
+
+                    DatePicker("End",
+                               selection: $endTime,
+                               displayedComponents: isAllDay ? .date : [.date, .hourAndMinute])
+
                     TextField("Notes", text: $notes, axis: .vertical)
                         .lineLimit(3...6)
                 }
-                
+
+                // Location
                 Section("Location") {
-                    if let location = selectedLocation {
+                    if let loc = selectedLocation {
                         VStack(alignment: .leading) {
-                            Text(location.name ?? "Unknown Location")
+                            Text(loc.name ?? "Unknown Location")
                                 .font(.headline)
-                            Text(location.placemark.title ?? "")
+                            Text(loc.placemark.title ?? "")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
                     }
-                    
-                    Button(action: { showingLocationSearch = true }) {
-                        Label(selectedLocation == nil ? "Search Location" : "Change Location", 
+
+                    Button {
+                        showingLocationSearch = true
+                    } label: {
+                        Label(selectedLocation == nil
+                              ? "Search Location"
+                              : "Change Location",
                               systemImage: "location.magnifyingglass")
                     }
                 }
@@ -69,45 +86,43 @@ struct NewActivityView: View {
                     Button("Cancel") { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Add") {
-                        addActivity()
-                    }
-                    .disabled(title.isEmpty || selectedLocation == nil)
+                    Button("Add") { addActivity() }
+                        .disabled(title.isEmpty || selectedLocation == nil)
                 }
             }
             .sheet(isPresented: $showingLocationSearch) {
+                // `LocationSearchView` is assumed to already exist in your project.
                 LocationSearchView(selectedLocation: $selectedLocation)
             }
         }
     }
-    
+
+    // MARK: - Helpers
+
+    /// Persists the new activity to the bound `trip`, then dismisses the sheet.
     private func addActivity() {
-        guard let location = selectedLocation,
-              let latitude = location.placemark.location?.coordinate.latitude,
-              let longitude = location.placemark.location?.coordinate.longitude else { return }
-        
+        guard let loc = selectedLocation,
+              let latitude = loc.placemark.location?.coordinate.latitude,
+              let longitude = loc.placemark.location?.coordinate.longitude else { return }
+
         let activity = Activity(
             title: title,
             startTime: startTime,
             endTime: endTime,
             location: Location(
-                name: location.name ?? "Unknown",
+                name: loc.name ?? "Unknown",
                 latitude: latitude,
                 longitude: longitude
             ),
             category: category,
-            notes: notes
+            notes: notes,
+            isAllDay: isAllDay
         )
-        
+
         var updatedTrip = trip
         updatedTrip.activities.append(activity)
         tripStore.updateTrip(updatedTrip)
-        
-        // Request calendar access for future integration
-        eventStore.requestAccess(to: .event) { granted, error in
-            // Calendar access will be used in future updates
-        }
-        
+
         dismiss()
     }
 }
