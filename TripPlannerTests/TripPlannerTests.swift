@@ -10,8 +10,30 @@ import Testing
 
 struct TripPlannerTests {
 
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    @Test func activityValidation() async throws {
+        let location = Location(name: "Test", latitude: 0, longitude: 0)
+        let start = Date()
+        let end = start.addingTimeInterval(3600)
+
+        let validActivity = Activity(
+            title: "Example",
+            startTime: start,
+            endTime: end,
+            location: location,
+            category: .places
+        )
+
+        #expect(validActivity.isValid)
+
+        let invalidActivity = Activity(
+            title: "Invalid",
+            startTime: end,
+            endTime: start,
+            location: location,
+            category: .places
+        )
+
+        #expect(!invalidActivity.isValid)
     }
 
 }

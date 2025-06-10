@@ -91,7 +91,7 @@ struct NewActivityView: View {
                 }
             }
             .sheet(isPresented: $showingLocationSearch) {
-                // `LocationSearchView` is assumed to already exist in your project.
+                // `LocationSearchView` is part of the project.
                 LocationSearchView(selectedLocation: $selectedLocation)
             }
         }
