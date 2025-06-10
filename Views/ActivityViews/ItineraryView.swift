@@ -98,7 +98,7 @@ struct ItineraryView: View {
     
     private var groupedActivities: [Date: [Activity]] {
         // Use cached version if available and counts match
-        if !cachedGroupedActivities.isEmpty && cachedGroupedActivities.count == trip.activities.count {
+        if !cachedGroupedActivities.isEmpty && lastActivitiesCount == trip.activities.count {
             return cachedGroupedActivities
         }
         
