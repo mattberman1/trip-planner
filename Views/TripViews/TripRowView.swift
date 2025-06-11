@@ -27,9 +27,14 @@ struct TripRowView: View {
         .padding(.vertical, 4)
     }
     
-    private var dateRangeText: String {
+    private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        return formatter
+    }()
+
+    private var dateRangeText: String {
+        let formatter = Self.dateFormatter
         return "\(formatter.string(from: trip.startDate)) - \(formatter.string(from: trip.endDate))"
     }
 }

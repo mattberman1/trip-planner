@@ -20,7 +20,7 @@ struct ActivityRow: View {
         startTime: Date(),
         endTime: Date().addingTimeInterval(3600),
         location: Location(name: "Sample Location", latitude: 0, longitude: 0),
-        category: .sightseeing,
+        category: .places,
         notes: "Sample notes"
     )
     
