@@ -19,8 +19,7 @@ struct ItineraryView: View {
     @State private var lastActivitiesCount = 0
     
     var body: some View {
-        let _ = updateCacheIfNeeded()
-        return VStack(spacing: 0) {
+        VStack(spacing: 0) {
             // Trip Header
             VStack(alignment: .leading, spacing: 8) {
                 Text(trip.name)
@@ -80,6 +79,10 @@ struct ItineraryView: View {
             .padding(.bottom)
         }
         .background(Color(.systemGroupedBackground))
+        .onAppear(perform: updateCacheIfNeeded)
+        .onChange(of: trip.activities) { _ in
+            updateCacheIfNeeded()
+        }
     }
     
     /// Sorted activities, cached for performance

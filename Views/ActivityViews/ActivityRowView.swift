@@ -62,11 +62,15 @@ struct ActivityRowView: View {
         return "\(start) - \(end)"
     }
     
-    private var timeFormatter: DateFormatter {
+    private static let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         formatter.dateStyle = .none
         return formatter
+    }()
+
+    private var timeFormatter: DateFormatter {
+        Self.timeFormatter
     }
 }
 
