@@ -9,19 +9,13 @@
 import SwiftUI
 
 struct ItineraryView: View {
-    private enum Constants {
-        static let dateFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .full
-            return formatter
-        }()
-    }
     
     @Binding var trip: Trip
     @Binding var showingNewActivity: Bool
     @Binding var selectedActivity: Activity?
     
-    @State private var cachedGroupedActivities: [Date: [Activity]] = [:]
+    /// Cached, sorted activities for efficient rendering
+    @State private var cachedSortedActivities: [Activity] = []
     @State private var lastActivitiesCount = 0
     
     var body: some View {
@@ -60,23 +54,15 @@ struct ItineraryView: View {
             
             // Activities List
             List {
-                let activitiesByDate = groupedActivities
-                ForEach(activitiesByDate.keys.sorted(), id: \.self) { date in
-                    Section(header: Text(Constants.dateFormatter.string(from: date))) {
-                        let activities = activitiesByDate[date] ?? []
-                        ForEach(activities, id: \.id) { activity in
-                            Button(action: {
-                                selectedActivity = activity
-                            }) {
-                                ActivityRowView(activity: activity)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                        }
-                        .onDelete { indexSet in
-                            deleteActivities(on: date, at: indexSet)
-                        }
+                ForEach(sortedActivities) { activity in
+                    Button(action: {
+                        selectedActivity = activity
+                    }) {
+                        ActivityRowView(activity: activity)
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
+                .onDelete(perform: deleteActivities)
             }
             .listStyle(InsetGroupedListStyle())
             .padding(.top, 8)
@@ -96,38 +82,25 @@ struct ItineraryView: View {
         .background(Color(.systemGroupedBackground))
     }
     
-    private var groupedActivities: [Date: [Activity]] {
-        // Use cached version if available and counts match
-        if !cachedGroupedActivities.isEmpty && lastActivitiesCount == trip.activities.count {
-            return cachedGroupedActivities
+    /// Sorted activities, cached for performance
+    private var sortedActivities: [Activity] {
+        if !cachedSortedActivities.isEmpty && lastActivitiesCount == trip.activities.count {
+            return cachedSortedActivities
         }
-        
-        // Fallback to direct grouping if cache is invalid
-        return Dictionary(grouping: trip.activities) { activity in
-            Calendar.current.startOfDay(for: activity.startTime)
-        }
+
+        cachedSortedActivities = trip.activities.sorted { $0.startTime < $1.startTime }
+        lastActivitiesCount = trip.activities.count
+        return cachedSortedActivities
     }
-    
-    // Update cache when activities change
+
     private func updateCacheIfNeeded() {
         guard lastActivitiesCount != trip.activities.count else { return }
-        
-        cachedGroupedActivities = Dictionary(grouping: trip.activities) { activity in
-            Calendar.current.startOfDay(for: activity.startTime)
-        }
+        cachedSortedActivities = trip.activities.sorted { $0.startTime < $1.startTime }
         lastActivitiesCount = trip.activities.count
     }
-    
-    private func deleteActivities(on date: Date, at offsets: IndexSet) {
-        let activitiesOnDate = groupedActivities[date] ?? []
-        let idsToRemove = offsets.map { activitiesOnDate[$0].id }
-        
-        // Update the trip's activities by filtering out the removed ones
-        trip.activities.removeAll { activity in
-            idsToRemove.contains(activity.id)
-        }
-        
-        // Invalidate cache
-        cachedGroupedActivities = [:]
+
+    private func deleteActivities(at offsets: IndexSet) {
+        trip.activities.remove(atOffsets: offsets)
+        cachedSortedActivities = []
     }
 }
