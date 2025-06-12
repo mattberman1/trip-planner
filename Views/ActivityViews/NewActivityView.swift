@@ -30,7 +30,7 @@ struct NewActivityView: View {
     // MARK: - View
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 // Activity basics
                 Section("Activity Details") {
