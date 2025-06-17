@@ -14,7 +14,7 @@ import SwiftData
     var title: String = ""
     var startDate: Date = Date.now
     var endDate: Date = Date.now
-    var cities: [String] = Array<String>()
+    var cityName: String = ""
     @Relationship(deleteRule: .cascade) var activities: [Activity] = Array<Activity>()
     
     init(id: UUID = UUID(),
@@ -27,7 +27,7 @@ import SwiftData
         self.title = title
         self.startDate = startDate
         self.endDate = endDate
-        self.cities = cities
+        self.cityName = cityName
         self.activities = activities
     }
 }
