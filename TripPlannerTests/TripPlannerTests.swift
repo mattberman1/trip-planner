@@ -1,16 +1,15 @@
 //
-//  TripPlannerTests.swift
-//  TripPlannerTests
+//  TravelPlannerTests.swift
+//  TravelPlannerTests
 //
 //  Created by Matt Berman on 6/16/25.
 //
 
-import Testing
+import XCTest
+@testable import TripPlanner
 
-struct TripPlannerTests {
-
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+final class TripTests: XCTestCase {
+    func testTripInitHasID() {
+        XCTAssertNotNil(Trip().id)
     }
-
 }

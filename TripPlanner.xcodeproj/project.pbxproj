@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		542E150E2E01030F00BABF2C /* TripPlannerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E150D2E01030F00BABF2C /* TripPlannerApp.swift */; };
+		542E15102E01030F00BABF2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E150F2E01030F00BABF2C /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		542E151A2E01031400BABF2C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -25,8 +30,12 @@
 
 /* Begin PBXFileReference section */
 		542E150A2E01030F00BABF2C /* TripPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TripPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		542E150D2E01030F00BABF2C /* TripPlannerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripPlannerApp.swift; sourceTree = "<group>"; };
+		542E150F2E01030F00BABF2C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		542E15192E01031400BABF2C /* TripPlannerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripPlannerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		542E15232E01031400BABF2C /* TripPlannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		542E153B2E01037C00BABF2C /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
+		542E153C2E01038700BABF2C /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +84,11 @@
 		542E15012E01030F00BABF2C = {
 			isa = PBXGroup;
 			children = (
+				542E153A2E01035100BABF2C /* App */,
+				542E15392E01033A00BABF2C /* Models */,
+				542E15382E01033200BABF2C /* Views */,
+				542E15372E01032A00BABF2C /* Managers */,
+				542E15362E01032000BABF2C /* Resources */,
 				542E150C2E01030F00BABF2C /* TripPlanner */,
 				542E151C2E01031400BABF2C /* TripPlannerTests */,
 				542E15262E01031400BABF2C /* TripPlannerUITests */,
@@ -90,6 +104,45 @@
 				542E15232E01031400BABF2C /* TripPlannerUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		542E15362E01032000BABF2C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		542E15372E01032A00BABF2C /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		542E15382E01033200BABF2C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				542E150F2E01030F00BABF2C /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		542E15392E01033A00BABF2C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				542E153C2E01038700BABF2C /* Activity.swift */,
+				542E153B2E01037C00BABF2C /* Trip.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		542E153A2E01035100BABF2C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				542E150D2E01030F00BABF2C /* TripPlannerApp.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +289,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				542E15102E01030F00BABF2C /* ContentView.swift in Sources */,
+				542E150E2E01030F00BABF2C /* TripPlannerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
