@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var store = TripStore()
+    @State private var showingNewTrip = false     // ← NEW
 
     var body: some View {
         NavigationView {
@@ -18,11 +19,14 @@ struct ContentView: View {
             .navigationTitle("Trips")
             .toolbar {
                 Button {
-                    let newTrip = Trip()
-                    newTrip.title = "New Trip"
-                    store.addTrip(newTrip)
+                    showingNewTrip = true
                 } label: {
                     Label("Add Trip", systemImage: "plus")
+                }
+            }
+            .sheet(isPresented: $showingNewTrip) {     // ← NEW
+                NewTripSheet { trip in
+                    store.addTrip(trip)
                 }
             }
         }

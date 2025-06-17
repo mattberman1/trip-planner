@@ -12,6 +12,7 @@
 		542E153D2E0104BF00BABF2C /* Activity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E153C2E01038700BABF2C /* Activity.swift */; };
 		542E153E2E0104C400BABF2C /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E153B2E01037C00BABF2C /* Trip.swift */; };
 		542E15402E01068600BABF2C /* TripStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E153F2E01056F00BABF2C /* TripStore.swift */; };
+		542E15422E0109DB00BABF2C /* NewTripSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E15412E0109DB00BABF2C /* NewTripSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		542E153B2E01037C00BABF2C /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trip.swift; sourceTree = "<group>"; };
 		542E153C2E01038700BABF2C /* Activity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activity.swift; sourceTree = "<group>"; };
 		542E153F2E01056F00BABF2C /* TripStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripStore.swift; sourceTree = "<group>"; };
+		542E15412E0109DB00BABF2C /* NewTripSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -128,6 +130,7 @@
 		542E15382E01033200BABF2C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				542E15412E0109DB00BABF2C /* NewTripSheet.swift */,
 				542E150F2E01030F00BABF2C /* ContentView.swift */,
 			);
 			path = Views;
@@ -299,6 +302,7 @@
 				542E153D2E0104BF00BABF2C /* Activity.swift in Sources */,
 				542E15402E01068600BABF2C /* TripStore.swift in Sources */,
 				542E150E2E01030F00BABF2C /* TripPlannerApp.swift in Sources */,
+				542E15422E0109DB00BABF2C /* NewTripSheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
