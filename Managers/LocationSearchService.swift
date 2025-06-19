@@ -15,10 +15,17 @@ final class LocationSearchService: NSObject, ObservableObject, MKLocalSearchComp
 
     private let completer: MKLocalSearchCompleter = {
         let c = MKLocalSearchCompleter()
-        c.resultTypes = .address        // city / state / country lines
+        c.resultTypes = [ .address, .pointOfInterest]        // city / state / country lines
         return c
     }()
 
+    func setRegion(around coord: CLLocationCoordinate2D, span: CLLocationDegrees = 0.3) {
+            completer.region = MKCoordinateRegion(
+                center: coord,
+                span: .init(latitudeDelta: span, longitudeDelta: span)
+            )
+        }
+    
     override init() {
         super.init()
         completer.delegate = self

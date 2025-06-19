@@ -12,6 +12,7 @@ import MapKit
 struct NewActivitySheet: View {
     var onSave: (Activity) -> Void
     let tripID: UUID                      // passed in by TripDetailView
+    let cityName: String
 
     @Environment(\.dismiss) private var dismiss
     @State private var title = ""
@@ -23,6 +24,7 @@ struct NewActivitySheet: View {
     @State private var selected: MKLocalSearchCompletion?
     @State private var coord: CLLocationCoordinate2D?
     @StateObject private var search = LocationSearchService()
+    @State private var cityCoord: CLLocationCoordinate2D?
 
     var body: some View {
         NavigationStack {
@@ -75,6 +77,14 @@ struct NewActivitySheet: View {
                 }
             }
         }
+        .task {
+            if cityCoord == nil {
+                cityCoord = await geocode(cityName)
+                if let c = cityCoord {
+                    search.setRegion(around: c)
+                }
+            }
+        }
     }
 
     private func save() {
@@ -88,5 +98,13 @@ struct NewActivitySheet: View {
         )
         onSave(a)
         dismiss()
+    }
+    
+    /// Geocode the trip's city name once to bias location suggestions.
+    private func geocode(_ query: String) async -> CLLocationCoordinate2D? {
+        var request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = query
+        let response = try? await MKLocalSearch(request: request).start()
+        return response?.mapItems.first?.placemark.coordinate
     }
 }
