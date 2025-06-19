@@ -22,7 +22,7 @@ struct NewTripSheet: View {
     @State private var cityQuery = ""
     @State private var chosenCity: MKLocalSearchCompletion?
     @State private var cityCoordinates: CLLocationCoordinate2D?
-    @State private var search = LocationSearchService()
+    @StateObject private var search = LocationSearchService()
 
     @Environment(\.dismiss) private var dismiss
 
@@ -36,21 +36,31 @@ struct NewTripSheet: View {
 
                     // City autocomplete
                     TextField("City", text: $cityQuery)
-                        .onChange(of: cityQuery) { _, newValue in
-                            // Fire new search queries
-                            search.update(query: newValue)
-                            chosenCity = nil
+                        .autocorrectionDisabled()
+                        .onChange(of: cityQuery) { oldValue, newValue in
+                            // If a city has just been selected, skip triggering a new search
+                            guard chosenCity == nil else { return }
+
+                            // Throttle: only query MapKit after 3 characters
+                            if newValue.count >= 3 {
+                                search.update(query: newValue)
+                            } else {
+                                search.clearResults()
+                            }
                         }
 
                     // Suggestion list (shows only when typing)
                     if !search.results.isEmpty && chosenCity == nil {
                         List(search.results, id: \.self) { completion in
                             Button {
+                                // Immediately hide the suggestions
+                                chosenCity  = completion
+                                cityQuery   = completion.title
+                                search.clearResults()
+                                
+                                // Resolve coordinates asynchronously
                                 Task {
-                                    // Resolve coordinates
                                     cityCoordinates = try? await search.coordinates(for: completion)
-                                    cityQuery   = completion.title   // show chosen city
-                                    chosenCity  = completion
                                 }
                             } label: {
                                 // Two-line cell: “Austin” / “TX, United States”

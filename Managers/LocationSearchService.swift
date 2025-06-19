@@ -5,21 +5,17 @@
 //  Created by Matt Berman on 6/16/25.
 //
 
-import Foundation
-import MapKit             // MKLocalSearch & MKLocalSearchCompleter
-import Observation        // for @Observable
+import MapKit
+import Combine
 
-/// Simple wrapper around MKLocalSearchCompleter that publishes cities.
-@Observable
 @MainActor
-final class LocationSearchService: NSObject, MKLocalSearchCompleterDelegate {
+final class LocationSearchService: NSObject, ObservableObject, MKLocalSearchCompleterDelegate {
 
-    // Published results UI can bind to
-    private(set) var results: [MKLocalSearchCompletion] = []
+    @Published var results: [MKLocalSearchCompletion] = []
 
     private let completer: MKLocalSearchCompleter = {
         let c = MKLocalSearchCompleter()
-        c.resultTypes = .address
+        c.resultTypes = .address        // city / state / country lines
         return c
     }()
 
@@ -28,30 +24,42 @@ final class LocationSearchService: NSObject, MKLocalSearchCompleterDelegate {
         completer.delegate = self
     }
 
-    /// Update the query to fetch new completions.
+    /// Call from your `onChange` when the query changes.
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        self.results = completer.results.filter { !$0.subtitle.isEmpty }
+        print("MapKit results:", self.results.map(\.title))
+    }
+    
     func update(query: String) {
+        guard query.count >= 3 else {            // avoid rate-limit
+            results.removeAll()
+            return
+        }
         completer.queryFragment = query
     }
 
-    // MARK: – MKLocalSearchCompleterDelegate
+    func clearResults() { results.removeAll() }
+
+    // MARK: - MKLocalSearchCompleterDelegate
     func completer(_ completer: MKLocalSearchCompleter,
                    didUpdateResults results: [MKLocalSearchCompletion]) {
-        // Keep only items that look like a city (have no street #)
-        self.results = results.filter { $0.subtitle.contains(",") }
+        // Keep only “City, Country” style matches
+        self.results = results.filter { !$0.subtitle.isEmpty }
     }
 
     func completer(_ completer: MKLocalSearchCompleter,
                    didFailWithError error: Error) {
-        print("Completer failed:", error)
-        results = []
+        print("Completer failed:", error)        // FYI: Code -7 is rate-limit
+        results.removeAll()
     }
 
-    // MARK: – Resolve a completion to coordinates
+    /// Turn a completion into coordinates (for centering the map later)
     func coordinates(for completion: MKLocalSearchCompletion) async throws -> CLLocationCoordinate2D {
-        let request = MKLocalSearch.Request(completion: completion)
+        let request  = MKLocalSearch.Request(completion: completion)
         let response = try await MKLocalSearch(request: request).start()
         guard let item = response.mapItems.first else {
-            throw NSError(domain: "NoMapItem", code: -1)
+            throw NSError(domain: "LocationSearchService", code: -1,
+                          userInfo: [NSLocalizedDescriptionKey: "No map item"])
         }
         return item.placemark.coordinate
     }
