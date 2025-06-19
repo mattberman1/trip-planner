@@ -15,7 +15,8 @@ import SwiftData
 /// The sidebar can’t be collapsed because the nav-toolbar is hidden.
 struct TripDetailView: View {
     let trip: Trip
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context          // ← NEW
+    @State private var showActivitySheet = false              // ← NEW
     
     @State private var mapPosition = MapCameraPosition.region(
         MKCoordinateRegion(
@@ -41,6 +42,18 @@ struct TripDetailView: View {
         }
         .navigationTitle(trip.title.isEmpty ? "Trip" : trip.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button { showActivitySheet = true } label: {
+                    Label("Add", systemImage: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $showActivitySheet) {
+            NewActivitySheet(onSave: { activity in
+                trip.activities.append(activity);                try? context.save()
+            }, tripID: trip.id)
+        }
         .onAppear(perform: setInitialRegion)
     }
 
