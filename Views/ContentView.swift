@@ -8,16 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var store = TripStore()
+    @Environment(\.modelContext) private var modelContext
+    @State private var store: TripStore?
     @State private var showingNewTrip = false     // ← NEW
 
     var body: some View {
-        NavigationView {
-            List(store.trips) { trip in
-                NavigationLink {
-                    TripDetailView(trip: trip)
-                } label: {
-                    Text(trip.title.isEmpty ? "Untitled Trip" : trip.title)
+        NavigationStack {
+            Group {
+                if let store = store {
+                    List(store.trips) { trip in
+                        NavigationLink {
+                            TripDetailView(trip: trip)
+                        } label: {
+                            Text(trip.title.isEmpty ? "Untitled Trip" : trip.title)
+                        }
+                    }
+                } else {
+                    ProgressView()
+                        .onAppear { store = TripStore(context: modelContext) }
                 }
             }
             .navigationTitle("Trips")
@@ -28,9 +36,11 @@ struct ContentView: View {
                     Label("Add Trip", systemImage: "plus")
                 }
             }
-            .sheet(isPresented: $showingNewTrip) {     // ← NEW
-                NewTripSheet { trip in
-                    store.addTrip(trip)
+            .sheet(isPresented: $showingNewTrip) {
+                if let store = store {
+                    NewTripSheet { trip in
+                        store.addTrip(trip)
+                    }
                 }
             }
         }
@@ -39,4 +49,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .modelContainer(for: [Trip.self, Activity.self], inMemory: true)
 }

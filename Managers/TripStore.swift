@@ -18,10 +18,8 @@ import Observation
     private let context: ModelContext
 
     // MARK: – Init
-    init() {
-        // Create the model container on the MainActor
-        let container = try! ModelContainer(for: Trip.self, Activity.self)
-        self.context = ModelContext(container)
+    init(context: ModelContext) {
+        self.context = context
         loadTrips()
     }
 

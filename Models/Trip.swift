@@ -21,7 +21,7 @@ import SwiftData
          title: String = "",
          startDate: Date = .now,
          endDate: Date = .now,
-         cities: [String] = [],
+         cityName: String = "",
          activities: [Activity] = []) {
         self.id = id
         self.title = title

@@ -12,7 +12,9 @@ final class TripStoreTests: XCTestCase {
 
     @MainActor func testAddTripPersists() {
         // Arrange
-        let store = TripStore()          // uses in-memory container
+        let container = try! ModelContainer(for: Trip.self, Activity.self, inMemory: true)
+        let context = ModelContext(container)
+        let store = TripStore(context: context)
         let trip  = Trip()
         trip.title = "Test Trip"
 
