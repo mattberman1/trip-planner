@@ -15,7 +15,8 @@ import SwiftData
 /// The sidebar can’t be collapsed because the nav-toolbar is hidden.
 struct TripDetailView: View {
     let trip: Trip
-
+    @Environment(\.dismiss) private var dismiss
+    
     @State private var mapPosition = MapCameraPosition.region(
         MKCoordinateRegion(
             center: .init(latitude: 0, longitude: 0),
@@ -40,7 +41,6 @@ struct TripDetailView: View {
         }
         .navigationTitle(trip.title.isEmpty ? "Trip" : trip.title)
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar(.hidden, for: .navigationBar)   // hide collapse button
         .onAppear(perform: setInitialRegion)
     }
 
