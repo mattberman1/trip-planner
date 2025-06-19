@@ -14,7 +14,11 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             List(store.trips) { trip in
-                Text(trip.title.isEmpty ? "Untitled Trip" : trip.title)
+                NavigationLink {
+                    TripDetailView(trip: trip)
+                } label: {
+                    Text(trip.title.isEmpty ? "Untitled Trip" : trip.title)
+                }
             }
             .navigationTitle("Trips")
             .toolbar {

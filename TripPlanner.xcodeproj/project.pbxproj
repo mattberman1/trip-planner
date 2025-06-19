@@ -14,6 +14,7 @@
 		542E15402E01068600BABF2C /* TripStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E153F2E01056F00BABF2C /* TripStore.swift */; };
 		542E15422E0109DB00BABF2C /* NewTripSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E15412E0109DB00BABF2C /* NewTripSheet.swift */; };
 		542E15442E010AF500BABF2C /* LocationSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E15432E010AF500BABF2C /* LocationSearchService.swift */; };
+		542E155A2E03AF7700BABF2C /* TripDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542E15592E03AF7700BABF2C /* TripDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		542E153F2E01056F00BABF2C /* TripStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripStore.swift; sourceTree = "<group>"; };
 		542E15412E0109DB00BABF2C /* NewTripSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTripSheet.swift; sourceTree = "<group>"; };
 		542E15432E010AF500BABF2C /* LocationSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchService.swift; sourceTree = "<group>"; };
+		542E15592E03AF7700BABF2C /* TripDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -133,6 +135,7 @@
 		542E15382E01033200BABF2C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				542E15592E03AF7700BABF2C /* TripDetailView.swift */,
 				542E15412E0109DB00BABF2C /* NewTripSheet.swift */,
 				542E150F2E01030F00BABF2C /* ContentView.swift */,
 			);
@@ -302,6 +305,7 @@
 			files = (
 				542E153E2E0104C400BABF2C /* Trip.swift in Sources */,
 				542E15102E01030F00BABF2C /* ContentView.swift in Sources */,
+				542E155A2E03AF7700BABF2C /* TripDetailView.swift in Sources */,
 				542E153D2E0104BF00BABF2C /* Activity.swift in Sources */,
 				542E15402E01068600BABF2C /* TripStore.swift in Sources */,
 				542E150E2E01030F00BABF2C /* TripPlannerApp.swift in Sources */,
