@@ -42,8 +42,7 @@ struct NewActivitySheet: View {
                 // Location field + suggestions
                 TextField("Location", text: $query)
                     .onChange(of: query) { _, new in
-                        if new.count >= 3 { search.update(query: new) }
-                        else { search.clearResults() }
+                        if new.count >= 3 { search.update(query: new, mode: .poi) }
                         selected = nil
                     }
 
@@ -102,7 +101,7 @@ struct NewActivitySheet: View {
     
     /// Geocode the trip's city name once to bias location suggestions.
     private func geocode(_ query: String) async -> CLLocationCoordinate2D? {
-        var request = MKLocalSearch.Request()
+        let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = query
         let response = try? await MKLocalSearch(request: request).start()
         return response?.mapItems.first?.placemark.coordinate

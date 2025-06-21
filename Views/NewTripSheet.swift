@@ -22,6 +22,8 @@ struct NewTripSheet: View {
     @State private var cityQuery = ""
     @State private var chosenCity: MKLocalSearchCompletion?
     @State private var cityCoordinates: CLLocationCoordinate2D?
+    /// Region hint so the completer can rank results near the chosen city
+    @State private var cityRegion: MKCoordinateRegion?
     @StateObject private var search = LocationSearchService()
 
     @Environment(\.dismiss) private var dismiss
@@ -43,7 +45,7 @@ struct NewTripSheet: View {
 
                             // Throttle: only query MapKit after 3 characters
                             if newValue.count >= 3 {
-                                search.update(query: newValue)
+                                search.update(query: newValue, mode: .city, region: cityRegion)
                             } else {
                                 search.clearResults()
                             }

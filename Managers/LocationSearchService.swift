@@ -13,6 +13,16 @@ final class LocationSearchService: NSObject, ObservableObject, MKLocalSearchComp
 
     @Published var results: [MKLocalSearchCompletion] = []
 
+    enum Mode { case city, poi }
+    private var mode: Mode = .city
+    private var regionHint: MKCoordinateRegion?
+
+    /// Configure the completer for the requested search mode.
+    private func configure(for mode: Mode) {
+        self.mode = mode
+        completer.resultTypes = mode == .city ? [.address] : [.pointOfInterest]
+    }
+
     private let completer: MKLocalSearchCompleter = {
         let c = MKLocalSearchCompleter()
         c.resultTypes = [ .address, .pointOfInterest]        // city / state / country lines
@@ -31,14 +41,14 @@ final class LocationSearchService: NSObject, ObservableObject, MKLocalSearchComp
         completer.delegate = self
     }
 
-    /// Call from your `onChange` when the query changes.
-    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        self.results = completer.results.filter { !$0.subtitle.isEmpty }
-        print("MapKit results:", self.results.map(\.title))
-    }
-    
-    func update(query: String) {
-        guard query.count >= 3 else {            // avoid rate-limit
+    /// Push keystrokes in here.
+    func update(query: String, mode: Mode, region: MKCoordinateRegion? = nil) {
+        if mode != self.mode { configure(for: mode) }
+        if let region = region {
+            completer.region = region
+            regionHint = region
+        }
+        guard query.count >= 3 else {
             results.removeAll()
             return
         }
@@ -47,11 +57,20 @@ final class LocationSearchService: NSObject, ObservableObject, MKLocalSearchComp
 
     func clearResults() { results.removeAll() }
 
+    /// Very lightweight “is this a city?” heuristic.
+    private func isCity(_ item: MKLocalSearchCompletion) -> Bool {
+        !item.title.contains(",") && item.subtitle.contains(",")
+    }
+
     // MARK: - MKLocalSearchCompleterDelegate
     func completer(_ completer: MKLocalSearchCompleter,
                    didUpdateResults results: [MKLocalSearchCompletion]) {
-        // Keep only “City, Country” style matches
-        self.results = results.filter { !$0.subtitle.isEmpty }
+        switch mode {
+        case .city:
+            self.results = results.filter(isCity)
+        case .poi:
+            self.results = results
+        }
     }
 
     func completer(_ completer: MKLocalSearchCompleter,
